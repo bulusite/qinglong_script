@@ -1,5 +1,5 @@
 /*
-cron "0 0 0/1 * *" idena_check_bot.js, tag:idena检测
+cron "0 0 0/1 * * ?" idena_check_bot.js, tag:idena检测
 */
 const moment = require('moment');
 const $ = new Env('idena检测');
