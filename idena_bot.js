@@ -45,10 +45,10 @@ async function checkOnline(address) {
                 } else {
                     console.log(data)
                     data = JSON.parse(data);
-                    if (data == null || data.result == null) {
-                        allMessage += `${data.result.address} 未验证\n`;
-                    } else {
+                    if (data.result) {
                         allMessage += `${data.result.address} ${data.result.online ? '在线':'离线'}\n`;
+                    } else {
+                        allMessage += `${data.result.address} 未验证\n`;
                     }
                 }
             } catch (e) {
