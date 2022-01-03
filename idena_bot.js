@@ -42,14 +42,14 @@ async function checkOnline(address) {
                 if (err) {
                     console.log(`\n${$.name}: API查询请求失败 ‼️‼️`);
                     $.logErr(err);
-                    allMessage += `${data.result.address} 请求失败\n`;
+                    allMessage += `${address} 请求失败\n`;
                 } else {
                     console.log(data)
                     data = JSON.parse(data);
-                    if (data.result.online) {
-                        allMessage += `${data.result.address} ${data.result.online ? '在线':'离线'}\n`;
+                    if (data.result) {
+                        allMessage += `${address} ${data.result.online ? '在线':'离线'}\n`;
                     } else {
-                        allMessage += `${data.result.address} 未验证\n`;
+                        allMessage += `${address} 未验证\n`;
                     }
                 }
             } catch (e) {
