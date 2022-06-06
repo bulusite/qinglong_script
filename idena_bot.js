@@ -35,7 +35,7 @@ async function idenaCheckOnline() {
 async function checkOnline(address) {
     return new Promise(resolve => {
         const options = {
-            url: `https://api.idena.org/api/onlineidentity/${address}`
+            url: `https://api.idena.io/api/onlineidentity/${address}`
         };
         $.get(options, (err, resp, data) => {
             try {
