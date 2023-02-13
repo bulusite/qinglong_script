@@ -20,6 +20,7 @@ let allMessage = '';
 
 
 !(async() => {
+    await getPrice();
     await lastTest();
     await idenaCheckOnline();
     await notify.sendNotify(`${$.name}`, `${allMessage}`);
@@ -29,6 +30,7 @@ async function idenaCheckOnline() {
     for (let i = 0; i < idenaAddress.length; i++) {
         const address = idenaAddress[i];
         await checkOnline(address);
+        await getBalance(address);
     }
 }
 
@@ -61,6 +63,34 @@ async function checkOnline(address) {
     })
 }
 
+async function getBalance(address) {
+    return new Promise(resolve => {
+        const options = {
+            url: `https://api.idena.io/api/address/${address}`
+        };
+        $.get(options, (err, resp, data) => {
+            try {
+                if (err) {
+                    console.log(`\n${$.name}: API查询请求失败 ‼️‼️`);
+                    $.logErr(err);
+                    allMessage += `${address} 请求失败\n`;
+                } else {
+                    console.log(data)
+                    data = JSON.parse(data);
+                    if (data.result) {
+                        const total = data.result.balance+data.result.stake
+                        allMessage += `balance:${data.result.balance} stake:${data.result.stake} total:${total}\n`;
+                    }
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(data);
+            }
+        })
+    })
+}
+
 async function lastTest() {
     return new Promise(resolve => {
         const options = {
@@ -76,6 +106,33 @@ async function lastTest() {
                     data = JSON.parse(data);
                     let date = moment(data.result.validationTime).format("YYYY-MM-DD HH:mm")
                     allMessage += `下次验证时间是: ${date}\n`
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(data);
+            }
+        })
+    })
+}
+
+async function getPrice() {
+    return new Promise(resolve => {
+        const options = {
+            url: 'https://api.coingecko.com/api/v3/simple/price?ids=idena&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true'
+        };
+        $.get(options, (err, resp, data) => {
+            try {
+                if (err) {
+                    console.log(`\n getPrice: API查询请求失败 ‼️‼️`);
+                    $.logErr(err);
+                } else {
+                    console.log(data)
+                    data = JSON.parse(data);
+                    let date = moment().format("YYYY-MM-DD HH:mm")
+                    allMessage += `当前时间: ${date}
+                    iDNA price:${data.idena.usd} usd 24h:${data.idena.usd_24h_change}\n
+                    `
                 }
             } catch (e) {
                 $.logErr(e, resp);
