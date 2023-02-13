@@ -80,11 +80,12 @@ async function getBalance(address) {
                         const balance = Number.parseFloat(data.result.balance).toFixed(4)
                         const stake = Number.parseFloat(data.result.stake).toFixed(4)
                         const total = balance+stake
-                    allMessage += `total:${total}
-balance:${balance}
-stake:${stake}
-total:${total}\n\n
-`;
+                        allMessage += `
+                            total:${total}
+                            balance:${balance}
+                            stake:${stake}
+                            total:${total}\n\n
+                        `;
                     }
                 }
             } catch (e) {
