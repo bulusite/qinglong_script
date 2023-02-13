@@ -77,11 +77,13 @@ async function getBalance(address) {
                     console.log(data)
                     data = JSON.parse(data);
                     if (data.result) {
-                        const total = data.result.balance+data.result.stake
-                    allMessage += `total:${total.toFixed(4)}
-balance:${data.result.balance.toFixed(4)}
-stake:${data.result.stake.toFixed(4)}
-total:${total.toFixed(4)}\n\n
+                        const balance = Number.parseFloat(data.result.balance).toFixed(4)
+                        const stake = Number.parseFloat(data.result.stake).toFixed(4)
+                        const total = balance+stake
+                    allMessage += `total:${total}
+balance:${balance}
+stake:${stake}
+total:${total}\n\n
 `;
                     }
                 }
