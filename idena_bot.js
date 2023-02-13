@@ -78,7 +78,11 @@ async function getBalance(address) {
                     data = JSON.parse(data);
                     if (data.result) {
                         const total = data.result.balance+data.result.stake
-                        allMessage += `balance:${data.result.balance} stake:${data.result.stake} total:${total}\n`;
+                    allMessage += `total:${total.toFixed(4)}
+balance:${data.result.balance.toFixed(4)}
+stake:${data.result.stake.toFixed(4)}
+total:${total.toFixed(4)}\n\n
+`;
                     }
                 }
             } catch (e) {
@@ -104,11 +108,7 @@ async function lastTest() {
                     console.log(data)
                     data = JSON.parse(data);
                     let date = moment(data.result.validationTime).format("YYYY-MM-DD HH:mm")
-                    allMessage += `total:${total.toFixed(4)}
-balance:${data.result.balance.toFixed(4)}
-stake:${data.result.stake.toFixed(4)}
-total:${total.toFixed(4)}\n\n
-`;
+                    allMessage += `下次验证时间是: ${date}\n`
                 }
             } catch (e) {
                 $.logErr(e, resp);
