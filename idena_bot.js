@@ -48,7 +48,13 @@ async function checkOnline(address) {
                     console.log(data)
                     data = JSON.parse(data);
                     if (data.result) {
-                        allMessage += `${address} ${data.result.online ? '在线':'离线'}\n`;
+                        if(data.result.online){
+                            allMessage += `${address} 在线\n`;
+                        } else if(data.result.delegatee && data.result.delegatee.online) {
+                            allMessage += `${address} delegatee\n`;
+                        } else {
+                            allMessage += `${address} 离线\n`;
+                        }
                     } else {
                         allMessage += `${address} 未验证\n`;
                     }
